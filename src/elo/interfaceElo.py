@@ -1,4 +1,4 @@
-from src.common.config import *
+from src.common.config import canvas, relative_to_assets
 from src.common.interface import Interface
 from tkinter import Entry, Button, PhotoImage, messagebox
 from .elo import Elo

@@ -3,7 +3,7 @@ from .cardHolder import CardHolder
 from src.common.interface import Interface
 from tkinter import messagebox, Text, PhotoImage, Button, Label
 #Para generar el pdf
-from src.common.config import * 
+from src.common.config import canvas, relative_to_assets
 from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont

@@ -1,87 +1,72 @@
-from src.common.config import *
-from tkinter import Label, PhotoImage, Button
-import tkinter as tk, tkinter.font as tkFont
+from src.common.config import canvas
+from src.common.images import load_image
+from .pieces import PIECE_SIZE_ADJUST
 
-class Box():
-    """
-    Box
+# Geometría de la imagen tablero_vacio_color.png en pantalla.
+BOARD_IMAGE_X = 20
+BOARD_IMAGE_Y = 80
+BOARD_IMAGE_SIZE = 400
+BOARD_SOURCE_SIZE = 1254
+BOARD_SOURCE_MARGIN = 52
+BOARD_SOURCE_INNER = 1144
+BOARD_SQUARE = BOARD_IMAGE_SIZE * (BOARD_SOURCE_INNER / BOARD_SOURCE_SIZE) / 8
+BOARD_LEFT = BOARD_IMAGE_X + BOARD_IMAGE_SIZE * (BOARD_SOURCE_MARGIN / BOARD_SOURCE_SIZE)
+BOARD_TOP = BOARD_IMAGE_Y + BOARD_IMAGE_SIZE * (BOARD_SOURCE_MARGIN / BOARD_SOURCE_SIZE)
+PIECE_SCREEN_SIZE = 44
 
-    Representa una casilla en el tablero, contiene la siguiente info:
-        > Coordenada en el tablero
-        > Si contiene alguna pieza y de qué color
-    
-    Iniciales de las piezas:
-        R - Rey
-        D - Dama
-        T - Torre
-        A - Alfil
-        C - Caballo
-        p - Peón 
-    """
-    def __init__(self, x, y, back) -> None:
-        self.canvas_box = 0 #componente dentro del canvas
-        self.img_box = 0 # Imagen de la casilla
-        #Coordenadas
-        self.x = 80 + (43 * y) #num que representa las letras (a-h)
-        self.y = 125.0 + (43 * x) #números (0-7)
-        #Pieza de la casilla
-        self.name = "" #Nombre(inicial)
-        self.color = ""  # B - blanco, N - negro(color)
-        #Color
-        self.back = back # 0 - blanco, 1 - negro (fondo)
-        #Agregamos la fuente 
-        self.chessMerida = tkFont.Font(family='Chess Merida', size=25, weight='bold')
+
+class Box:
+    """Representa una casilla y dibuja la pieza como PNG, no como carácter."""
+    def __init__(self, row, col, back) -> None:
+        self.canvas_box = None
+        self.img_box = None
+        self.row = row
+        self.col = col
+        self.x = BOARD_LEFT + BOARD_SQUARE * (col + 0.5)
+        self.y = BOARD_TOP + BOARD_SQUARE * (row + 0.5)
+        self.name = ""
+        self.color = ""
+        self.back = back
+
+
+    def update_position(self, flipped=False):
+        """Actualiza la posición visual sin cambiar la casilla lógica de la pieza."""
+        row = 7 - self.row if flipped else self.row
+        col = 7 - self.col if flipped else self.col
+        self.x = BOARD_LEFT + BOARD_SQUARE * (col + 0.5)
+        self.y = BOARD_TOP + BOARD_SQUARE * (row + 0.5)
+        if self.canvas_box is not None:
+            canvas.coords(self.canvas_box, self.x, self.y)
 
     def set_image(self):
-        """ 
-            Asigna la img correspondiente según la silla
-            y la pieza que contiene
-        """
-        piece = str(self.back)
-        self.img_box = PhotoImage(
-            file=relative_to_assets("images/chess/"+piece+".png"))
+        """Carga únicamente la pieza PNG. El tablero es una sola imagen de fondo."""
+        self.img_box = None
+        if self.get_name():
+            name = self.get_name()
+            factor = PIECE_SIZE_ADJUST.get(name, PIECE_SIZE_ADJUST.get(name[0], 1.0))
+            size = max(1, int(round(PIECE_SCREEN_SIZE * factor)))
+            self.img_box = load_image(
+                "images/chess/pieces96/" + name + ".png",
+                (size, size)
+            )
 
     def show_on_screen(self):
-        """ Muestra en pantalla la casilla """
-        self.canvas_box_img = canvas.create_image(self.x, self.y, image = self.img_box)
-        self.canvas_box =  canvas.create_text(self.x, self.y, text=self.toString(), fill="black", font=('Carlito 25 bold'))
-
+        if self.img_box is not None:
+            self.canvas_box = canvas.create_image(self.x, self.y, image=self.img_box)
+        else:
+            self.canvas_box = None
 
     def set_piece(self, name, color):
-        """
-           Agrega una pieza a la casilla (actualiza la img)
-           name (str) - inicial del nombre de la pieza
-           color (str) - B o N 
-        """
         self.name = name
         self.color = color
-        self.set_image()
         self.clean()
+        self.set_image()
         self.show_on_screen()
-    
-    def toString(self):
-        """
-        Convierte el nombre de las piezas en el símbolo de la pieza
-        """
-        pieces_font = {"":"",
-            "RB":"\u2654", "RN":"\u265A",
-            "DB":"\u2655", "DN":"\u265B",        
-            "TB":"\u2656", "TN":"\u265C",
-            "AB":"\u2657", "AN":"\u265D",
-            "CB":"\u2658", "CN":"\u265E",
-            "pB":"\u2659", "pN":"\u265F",   
-        }
-        return pieces_font[self.get_name()]
 
     def get_name(self) -> str:
-        """
-        Nos regresa la información de la casilla:
-           > Nombre de la pieza
-           > Color de la pieza
-        """
-        return self.name+self.color
-    
+        return self.name + self.color
+
     def clean(self):
-        """Eliminamos la casilla del tablero"""
-        canvas.delete(self.canvas_box)
-        canvas.delete(self.canvas_box_img)
+        if self.canvas_box is not None:
+            canvas.delete(self.canvas_box)
+            self.canvas_box = None

@@ -1,4 +1,4 @@
-tk==0.1.0
-reportlab==3.6.1
-PyMySQL==1.0.2
-chess==1.7.0
+Pillow>=9.0
+chess>=1.7
+reportlab>=4.0
+PyMySQL>=1.0

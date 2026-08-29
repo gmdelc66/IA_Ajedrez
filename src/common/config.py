@@ -1,37 +1,62 @@
+"""Configuración global de la interfaz y servicios opcionales.
+
+El editor no necesita MySQL para funcionar. La conexión del tarjetero se
+intenta únicamente con la configuración indicada mediante variables de
+entorno. Esto evita guardar credenciales dentro del repositorio.
+"""
+
+from __future__ import annotations
+
+import os
 from pathlib import Path
-import pymysql
-from tkinter import Tk, Canvas
+from tkinter import Canvas, Tk
 
-"""
-Configuración 
+OUTPUT_PATH = Path(__file__).resolve().parents[2]
+ASSETS_PATH = OUTPUT_PATH / "assets"
 
-Establece la ruta para encontrar las imágenes
-La conexión con la base de datos
-"""
+# ---------------------------------------------------------------------------
+# Base de datos opcional (tarjetero)
+# ---------------------------------------------------------------------------
+db = None
+DB_AVAILABLE = False
+DB_ERROR = None
 
-db = pymysql.connect(host='localhost',
-        user='localhost', 
-        password = "pruebatest",
-        db='ChessCard',)
+try:
+    import pymysql
 
-OUTPUT_PATH = Path(__file__).parent.parent.parent
-ASSETS_PATH = OUTPUT_PATH / Path("./assets")
+    db = pymysql.connect(
+        host=os.getenv("CHESSCARD_DB_HOST", "localhost"),
+        port=int(os.getenv("CHESSCARD_DB_PORT", "3306")),
+        user=os.getenv("CHESSCARD_DB_USER", "root"),
+        password=os.getenv("CHESSCARD_DB_PASSWORD", ""),
+        database=os.getenv("CHESSCARD_DB_NAME", "ChessCard"),
+        connect_timeout=1,
+    )
+    DB_AVAILABLE = True
+except Exception as exc:  # MySQL es opcional.
+    DB_ERROR = exc
+
+# ---------------------------------------------------------------------------
+# Ventana principal
+# ---------------------------------------------------------------------------
+WINDOW_WIDTH = 850
+WINDOW_HEIGHT = 640
 
 window = Tk()
-#Define el tamaño de la ventana
-window.geometry("770x562")
-window.configure(bg = "#FFFFFF")
+window.geometry(f"{WINDOW_WIDTH}x{WINDOW_HEIGHT}")
+window.configure(bg="#FFFFFF")
 
 canvas = Canvas(
     window,
-    bg = "#FFFFFF",
-    height = 562,
-    width = 770,
-    bd = 0,
-    highlightthickness = 0,
-    relief = "ridge"
+    bg="#FFFFFF",
+    height=WINDOW_HEIGHT,
+    width=WINDOW_WIDTH,
+    bd=0,
+    highlightthickness=0,
+    relief="ridge",
 )
 
+
 def relative_to_assets(path: str) -> Path:
-    """Define la ruta de las imágenes"""
-    return ASSETS_PATH / Path(path)
+    """Devuelve una ruta absoluta dentro de ``assets``."""
+    return ASSETS_PATH / path
