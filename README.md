@@ -1,3 +1,83 @@
+# IA_Ajedrez — Editor de diagramas y herramientas de ajedrez
+
+![Tablero de IA_Ajedrez](assets/images/chess/tablero_lleno.png)
+
+*Vista actual del tablero después de las adaptaciones gráficas realizadas para
+la creación de diagramas editoriales.*
+
+## About
+
+Esta versión de **IA_Ajedrez** nace a partir del proyecto original desarrollado
+por **KarlaDSJ**, cuyo trabajo proporcionó la base funcional y estructural sobre
+la cual se realizaron las modificaciones de esta edición.
+
+Nuestro objetivo no ha sido reconstruir completamente IA_Ajedrez, sino adaptar
+y ampliar las partes del programa que necesitábamos durante la preparación de una
+edición interactiva, corregida y ampliada de **Fundamentos del Ajedrez**, de
+José Raúl Capablanca.
+
+Para este propósito se incorporaron nuevas funciones y algunos cambios estéticos,
+entre ellos nuevas piezas gráficas en PNG, un nuevo diseño visual del tablero,
+herramientas para dibujar flechas y marcas sobre las posiciones, control de capas
+de anotaciones, rotación del tablero, lectura y generación de posiciones FEN,
+selección del turno, exportación de diagramas a PNG y otras mejoras destinadas
+a facilitar la creación de material didáctico y editorial.
+
+### Estado actual del proyecto
+
+Es importante señalar que **la renovación estética todavía no está terminada**.
+
+Las modificaciones realizadas hasta ahora se concentran principalmente en las
+funciones y elementos gráficos que necesitamos para nuestro proyecto editorial.
+Por ello, algunas partes de la interfaz conservan todavía el diseño y la
+organización visual del programa original.
+
+Consideramos que, como siguiente etapa, sería conveniente realizar una
+**actualización integral de la interfaz gráfica**, de manera que todas las
+ventanas, controles, herramientas y elementos visuales sean coherentes con la
+nueva estética del tablero y las piezas.
+
+Este trabajo queda pendiente para una futura versión.
+
+Nuestro objetivo inmediato es terminar primero las herramientas necesarias para
+la edición del libro. Conforme las nuevas mejoras y la actualización de la
+interfaz estén disponibles, **serán incorporadas a este repositorio**.
+
+## Agradecimiento al proyecto original
+
+Queremos expresar un agradecimiento muy especial a **KarlaDSJ**, autora del
+proyecto original **IA_Ajedrez**.
+
+Su trabajo representa mucho más que un simple punto de partida para esta versión.
+La estructura del programa, la construcción del tablero, el manejo de las piezas,
+la interfaz y numerosas ideas presentes en el proyecto original hicieron posible
+desarrollar estas nuevas herramientas sin tener que comenzar desde cero.
+
+Al trabajar directamente sobre su código hemos podido apreciar mejor la cantidad
+de tiempo, razonamiento y trabajo que existe detrás de IA_Ajedrez. Muchas de las
+modificaciones que hemos realizado fueron posibles precisamente porque ya existía
+una base funcional y bien desarrollada sobre la cual experimentar, adaptar y
+construir.
+
+Por esta razón queremos reconocer explícitamente su autoría y, sobre todo,
+**agradecer a KarlaDSJ por haber realizado y compartido públicamente este trabajo**.
+
+IA_Ajedrez se convirtió para nosotros en una herramienta de trabajo real durante
+la preparación de nuestra edición de **Fundamentos del Ajedrez**, y esperamos que
+las modificaciones desarrolladas para ese proyecto puedan también resultar útiles
+para otras personas interesadas en el ajedrez, la enseñanza y la creación de
+material didáctico.
+
+## Proyecto original
+
+**KarlaDSJ / IA_Ajedrez**
+
+> **Crédito del proyecto original:** KarlaDSJ / IA_Ajedrez.  
+> Esta versión no añade unilateralmente una licencia nueva al código original.
+> Para cualquier redistribución o utilización que exceda las condiciones
+> permitidas por GitHub o las establecidas por la autora, recomendamos consultar
+> primero con KarlaDSJ.
+
 # IA_Ajedrez — editor de diagramas y herramientas de ajedrez
 
 Este proyecto es una evolución del repositorio original **IA_Ajedrez** de
